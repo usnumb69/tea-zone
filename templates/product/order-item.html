@@ -1,0 +1,367 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="main-content app-content">
+        <div class="side-app">
+            <div class="main-container container-fluid">
+                <div class="row row-cards">
+                    <div class="col-lg-12 col-xl-12">
+                        <div class="card">
+                            {% if user.role == 1 %}
+                                <div class="card-header">
+                                    <a class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#add_order_item"><button class="btn btn-sm btn-primary badge" type="button">Add Order Item</button></a>
+                                    <div class="modal fade" id="add_order_item">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content modal-content-demo">
+                                                <form action="{% url 'order-item' %}" method="post">
+                                                    {% csrf_token %}
+                                                        <div class="modal-body">
+                                                            <div class="mb-4">
+                                                                <select class="form-control select2 form-select mb-4" name="order" data-placeholder="Choose one">
+                                                                    {% for i in order %}
+                                                                        <option value="{{ i.id }}">{{ i.room.number }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <select class="form-control select2 form-select mb-4" name="food" data-placeholder="Choose one">
+                                                                    <option class="form-control">Nothing</option>
+                                                                    {% for i in food %}
+                                                                        <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-4">
+                                                                <select class="form-control select2 form-select mb-4" name="product" data-placeholder="Choose one">
+                                                                    <option class="form-control">Nothing</option>
+                                                                    {% for i in product %}
+                                                                        <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                            <input type="number" class="form-control mb-4" name="quantity" placeholder="Quantity" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success">Add Item</button>
+                                                </form>
+                                                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif user.role == 2 %}
+                                <div class="card-header">
+                                    <a class="modal-effect d-grid mb-3" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#add_order_item"><button class="btn btn-sm btn-primary badge" type="button">Add Order Item</button></a>
+                                    <div class="modal fade" id="add_order_item">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content modal-content-demo">
+                                                <form action="{% url 'order-item' %}" method="post">
+                                                    {% csrf_token %}
+                                                         <div class="modal-body">
+                                                            <div class="mb-4">
+                                                                <select class="form-control select2 form-select mb-4" name="order" data-placeholder="Choose one" required>
+                                                                    {% for i in order %}
+                                                                        <option value="{{ i.id }}">{{ i.room.number }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                             <div class="mb-4">
+                                                                 <select class="form-control select2 form-select mb-4" name="food" data-placeholder="Choose one">
+                                                                     <option class="form-control">Nothing</option>
+                                                                     {% for i in food %}
+                                                                         <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                     {% endfor %}
+                                                                 </select>
+                                                             </div>
+                                                             <div class="mb-4">
+                                                                 <select class="form-control select2 form-select mb-4" name="product" data-placeholder="Choose one">
+                                                                     <option>Nothing</option>
+                                                                     {% for i in product %}
+                                                                         <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                     {% endfor %}
+                                                                 </select>
+                                                             </div>
+                                                            <input type="number" class="form-control mb-4" name="quantity" placeholder="Quantity" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success">Add Order Item</button>
+                                                </form>
+                                                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif user.role == 5 %}
+                                <div class="card-header">
+                                    <a class="modal-effect d-grid mb-3" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#add_order_item"><button class="btn btn-sm btn-primary badge" type="button">Add Order Item</button></a>
+                                    <div class="modal fade" id="add_order_item">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content modal-content-demo">
+                                                <form action="{% url 'order-item' %}" method="post">
+                                                    {% csrf_token %}
+                                                         <div class="modal-body">
+                                                            <div class="mb-4">
+                                                                <select class="form-control select2 form-select mb-4" name="order" data-placeholder="Choose one" required>
+                                                                    {% for i in order %}
+                                                                        <option value="{{ i.id }}">{{ i.room.number }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                             <div class="mb-4">
+                                                                 <select class="form-control select2 form-select mb-4" name="food" data-placeholder="Choose one">
+                                                                     <option class="form-control">Nothing</option>
+                                                                     {% for i in food %}
+                                                                         <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                     {% endfor %}
+                                                                 </select>
+                                                             </div>
+                                                             <div class="mb-4">
+                                                                 <select class="form-control select2 form-select mb-4" name="product" data-placeholder="Choose one">
+                                                                     <option>Nothing</option>
+                                                                     {% for i in product %}
+                                                                         <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                     {% endfor %}
+                                                                 </select>
+                                                             </div>
+                                                            <input type="number" class="form-control mb-4" name="quantity" placeholder="Quantity" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success">Add Order Item</button>
+                                                </form>
+                                                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="e-table px-5 pb-5">
+                                <div class="table-responsive tc table-lg">
+                                    <table class="table border-top table-bordered mb-0" style="text-align: center">
+                                        <thead>
+                                            <tr>
+                                                <th>Order For</th>
+                                                <th>Food</th>
+                                                <th>Product</th>
+                                                <th>Quantity</th>
+                                                {% if user.role == 1 %}
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+                                                {% elif user.role == 2 %}
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+                                                {% elif user.role == 5 %}
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in item %}
+                                                <tr>
+                                                    {% if i.order.delivery == False %}
+                                                        <td class="text-nowrap align-middle">{{ i.order.room.number }}</td>
+                                                    {% else %}
+                                                        <td class="text-nowrap align-middle">Delivery</td>
+                                                    {% endif %}
+                                                    {% if i.food %}
+                                                        <td class="text-nowrap align-middle">{{ i.food.name  }}</td>
+                                                    {% elif i.food == None %}
+                                                        <td class="text-nowrap align-middle">{{ i.food }}</td>
+                                                    {% endif %}
+                                                    {% if i.product %}
+                                                        <td class="text-nowrap align-middle">{{ i.product.name }}</td>
+                                                    {% else %}
+                                                        <td class="text-nowrap align-middle">{{ i.product }}</td>
+                                                    {% endif %}
+                                                    <td class="text-nowrap align-middle">{{ i.quantity  }}</td>
+                                                    {% if user.role == 1 %}
+                                                        <td><a href="#" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-edit-2"></i></a></td>
+                                                        <td><a href="#delete_order{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-trash"></i></a></td>
+                                                        <div class="modal fade" id="delete_order{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <div class="modal-body">
+                                                                        <h2 class="text-danger">Warning: If You Delete Order Item You Cant Restore It!</h2>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'delete-order-item' i.id %}"><button class="btn btn-danger"><i class="fe fe-trash"></i></button></a>
+                                                                        <button class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% elif user.role == 2 %}
+                                                        <td><a href="#update_order{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-edit-2"></i></a></td>
+                                                        <div class="modal fade" id="update_order{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <form action="{% url 'update-order-item' i.id %}" method="post">
+                                                                        {% csrf_token %}
+                                                                             <div class="modal-body">
+                                                                                 <div class="mb-4">
+                                                                                     <select class="form-control select2 form-select mb-4" name="order" data-placeholder="Choose one" required>
+                                                                                         {% for x in order %}
+                                                                                             {% if i.order.id == x.id %}
+                                                                                                <option value="{{ x.id }}" selected>{{ x.room.number }}</option>
+                                                                                             {% else %}
+                                                                                                <option value="{{ x.id }}">{{ x.room.number }}</option>
+                                                                                             {% endif %}
+                                                                                         {% endfor %}
+                                                                                     </select>
+                                                                                 </div>
+                                                                                 <div class="mb-4">
+                                                                                     <select class="form-control select2 form-select mb-4" name="food" data-placeholder="Choose one" required>
+                                                                                         <option>None</option>
+                                                                                         {% for x in food %}
+                                                                                             {% if i.food.id == x.id %}
+                                                                                                 <option value="{{ i.food.id }}" selected>{{ i.food.name }}&emsp;{{ i.food.category.name }}</option>
+                                                                                             {% else %}
+                                                                                                 <option value="{{ x.id }}">{{ x.name }}&emsp;{{ x.category.name }}</option>
+                                                                                             {% endif %}
+                                                                                         {% endfor %}
+                                                                                     </select>
+                                                                                 </div>
+                                                                                 <div class="mb-4">
+                                                                                     <select class="form-control select2 form-select mb-4" name="product" data-placeholder="Choose one" required>
+                                                                                         <option>None</option>
+                                                                                         {% for x in product %}
+                                                                                             {% if i.product.id == x.id %}
+                                                                                                 <option value="{{ i.product.id }}" selected>{{ i.product.name }}&emsp;{{ i.product.category.name }}</option>
+                                                                                             {% else %}
+                                                                                                 <option value="{{ x.id }}">{{ x.name }}&emsp;{{ x.category.name }}</option>
+                                                                                             {% endif %}
+                                                                                         {% endfor %}
+                                                                                     </select>
+                                                                                 </div>
+                                                                                <input type="number" value="{{ i.quantity }}" class="form-control mb-4" name="quantity" placeholder="Quantity" required>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button class="btn btn-success">Update Order Item</button>
+                                                                    </form>
+                                                                                <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                                            </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <td><a href="#delete_order{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-trash"></i></a></td>
+                                                        <div class="modal fade" id="delete_order{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <div class="modal-body">
+                                                                        <h2 class="text-danger">Warning: If You Delete Order Item You Cant Restore It!</h2>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'delete-order-item' i.id %}"><button class="btn btn-danger"><i class="fe fe-trash"></i></button></a>
+                                                                        <button class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% elif user.role == 5 %}
+                                                        <td><a href="#update_order{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-edit-2"></i></a></td>
+                                                        <div class="modal fade" id="update_order{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <form action="{% url 'update-order-item' i.id %}" method="post">
+                                                                        {% csrf_token %}
+                                                                             <div class="modal-body">
+                                                                                <div class="mb-4">
+                                                                                    <select class="form-control select2 form-select mb-4" name="order" data-placeholder="Choose one" required>
+                                                                                        <option value="{{ i.order.id }}" selected>{{ i.order.room.number }}</option>
+                                                                                        {% for i in order %}
+                                                                                            <option value="{{ i.id }}">{{ i.room.number }}</option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                                 <div class="mb-4">
+                                                                                     <select class="form-control select2 form-select mb-4" name="food" data-placeholder="Choose one" required>
+                                                                                         <option value="{{ i.food.id }}" selected>{{ i.food.name }}&emsp;{{ i.food.category.name }}</option>
+                                                                                         <option>None</option>
+                                                                                         {% for i in food %}
+                                                                                             <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                                         {% endfor %}
+                                                                                     </select>
+                                                                                 </div>
+                                                                                 <div class="mb-4">
+                                                                                     <select class="form-control select2 form-select mb-4" name="product" data-placeholder="Choose one" required>
+                                                                                         <option value="{{ i.product.id }}">{{ i.product.name }}&emsp;{{ i.product.category.name }}</option>
+                                                                                         <option>None</option>
+                                                                                         {% for i in product %}
+                                                                                             <option value="{{ i.id }}">{{ i.name }}&emsp;{{ i.category.name }}</option>
+                                                                                         {% endfor %}
+                                                                                     </select>
+                                                                                 </div>
+                                                                                <input type="number" value="{{ i.quantity }}" class="form-control mb-4" name="quantity" placeholder="Quantity" required>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button class="btn btn-success">Update Order Item</button>
+                                                                    </form>
+                                                                                <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                                            </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <td><a href="#delete_order{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-trash"></i></a></td>
+                                                        <div class="modal fade" id="delete_order{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <div class="modal-body">
+                                                                        <h2 class="text-danger">Warning: If You Delete Order Item You Cant Restore It!</h2>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'delete-order-item' i.id %}"><button class="btn btn-danger"><i class="fe fe-trash"></i></button></a>
+                                                                        <button class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" >
+                            <section class="text-center"  class="ftco-section bg-light">
+                                {% if item.paginator.num_pages > 1 %}
+                                    <nav aria-labelledby="Page navigations" >
+                                        <ul class="pagination pagination-lg round-pagination" style="justify-content:center">
+                                            {% if item.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ item.previous_page_number }}"><i class="bx bx-left-arrow-alt">previous</i></a>
+                                                </li>
+                                            {% endif %}
+                                            {% for num in item.paginator.page_range %}
+                                                {% if num == item.number %}
+                                                    <li class="page-item active">
+                                                        <a class="page-link" href="#" tabindex="-1">{{ num }}</a>
+                                                    </li>
+                                                {% elif num > item.number|add:'-3' and num < item.number|add:'3' %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if item.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ item.next_page_number }}" aria-label="Next">
+                                                        <i class="bx bx-right-arrow-alt">next</i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

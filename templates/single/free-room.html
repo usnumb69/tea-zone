@@ -1,0 +1,162 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="main-content app-content">
+        <div class="side-app">
+            <div class="main-container container-fluid">
+                <div class="row row-cards">
+                    <div class="col-lg-12 col-xl-12">
+                        <div class="card">
+                            <div class="card-header border-bottom-0">
+                                <h2 class="card-title" style="margin-right: 1.5rem;">We Have {{ total }} Rooms</h2>
+                                {% if user.role == 1 %}
+                                    <a class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#add_room"><button class="btn btn-sm btn-primary badge" type="button">Add Room</button></a>
+                                    <div class="modal fade" id="add_room">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content modal-content-demo">
+                                                <form action="{% url 'room' %}" method="post">
+                                                    {% csrf_token %}
+                                                        <div class="modal-body">
+                                                            <input type="text" class="form-control mb-4" name="number" placeholder="Number Of Room" required>
+                                                            <input type="text" class="form-control mb-4" name="place" placeholder="How Many Places In Room" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success">Add Room</button>
+                                                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% elif user.role == 3 %}
+                                    <a class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#add_room"><button class="btn btn-sm btn-primary badge" type="button">Add Room</button></a>
+                                    <div class="modal fade" id="add_room">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content modal-content-demo">
+                                                <form action="{% url 'room' %}" method="post">
+                                                    {% csrf_token %}
+                                                        <div class="modal-body">
+                                                            <input type="text" class="form-control mb-4" name="number" placeholder="Number Of Room" required>
+                                                            <input type="text" class="form-control mb-4" name="place" placeholder="How Many Places In Room" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success">Add Room</button>
+                                                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="e-table px-5 pb-5">
+                                <div class="table-responsive table-lg">
+                                    <table class="table border-top table-bordered mb-0" style="text-align: center">
+                                        <thead>
+                                            <tr>
+                                                <th>Number</th>
+                                                <th>Places</th>
+                                                <th>Busy</th>
+                                                {% if user.role == 1 %}
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+                                                {% elif user.role == 3 %}
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
+                                                {% endif %}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in room %}
+                                                <tr>
+                                                    <td class="text-nowrap align-middle">{{ i.number }}</td>
+                                                    <td class="text-nowrap align-middle">{{ i.places }}</td>
+                                                    {% if i.busy == False %}
+                                                        <td class="text-nowrap align-middle">Empty</td>
+                                                    {% else %}
+                                                        <td class="text-nowrap align-middle">Busy</td>
+                                                    {% endif %}
+                                                    {% if user.role == 1 %}
+                                                        <td><a href="#"><i class="fe fe-edit-2"></i></a></td>
+                                                        <td><a href="#"><i class="fe fe-trash"></i></a></td>
+                                                    {% elif user.role == 3 %}
+                                                        <td><a class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#update_room{{ i.id }}"><i class="fe fe-edit-2"></i></a></td>
+                                                        <div class="modal fade" id="update_room{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <form action="{% url 'update-room' i.id %}" method="post">
+                                                                        {% csrf_token %}
+                                                                            <div class="modal-body">
+                                                                                <input type="text" class="form-control mb-4" value="{{ i.number }}" name="number" placeholder="Number Or Name Of Room" required>
+                                                                                <input type="text" class="form-control mb-4" value="{{ i.places }}" name="place" placeholder="How Many Places In Room" required>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button class="btn btn-success">Update Room</button>
+                                                                    </form>
+                                                                                <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                                            </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <td><a href="#delete_room{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-trash"></i></a></td>
+                                                        <div class="modal fade" id="delete_room{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <div class="modal-body">
+                                                                        <h2 class="text-danger">Warning: If You Delete Room Item You Cant Restore It!</h2>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'delete-room' i.id %}"><button class="btn btn-danger"><i class="fe fe-trash"></i></button></a>
+                                                                        <button class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" >
+                        <section class="text-center"  class="ftco-section bg-light">
+                            {% if room.paginator.num_pages > 1 %}
+                                <nav aria-labelledby="Page navigations" >
+                                    <ul class="pagination pagination-lg round-pagination" style="justify-content:center">
+                                        {% if room.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ room.previous_page_number }}"><i class="bx bx-left-arrow-alt">previous</i></a>
+                                            </li>
+                                        {% endif %}
+                                        {% for num in room.paginator.page_range %}
+                                            {% if num == room.number %}
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="#" tabindex="-1">{{ num }}</a>
+                                                </li>
+                                            {% elif num > room.number|add:'-3' and num < room.number|add:'3' %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if room.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ room.next_page_number }}" aria-label="Next">
+                                                    <i class="bx bx-right-arrow-alt">next</i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

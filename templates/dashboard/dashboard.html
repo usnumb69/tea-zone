@@ -1,0 +1,104 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+        <div class="main-container container-fluid">
+            <div class="page-header">
+                <h1 class="page-title">CRM Director Dashboard</h1>
+                <div>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Total Clients</h6>
+                                            <a href="{% url 'client' %}" style="color: black"><h2 class="mb-0 number-font">{{ client }}</h2></a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/director/client.png' %}" width="100px" height="100px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Total Workers</h6>
+                                            <a href="{% url 'staff' %}" style="color: black"><h2 class="mb-0 number-font">{{ staff }}</h2></a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/director/workers.png' %}" width="100px" height="100px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Total Income</h6>
+                                            <a href="{% url 'order-item' %}" style="color: black"><h2 class="mb-0 number-font">${{ total }}</h2></a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/director/income.png' %}" width="100px" height="100px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Total Revenue</h6>
+                                            <a href="{% url 'order' %}" style="color: black"><h2 class="mb-0 number-font">${{ revenue }}</h2></a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/director/revenue.png' %}" width="100px" height="100px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Total Sales</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="novachart" class="h-275"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="main-content app-content">
+        <div class="side-app">
+            <div class="main-container container-fluid">
+                <div class="row row-cards">
+                    <div class="col-lg-12 col-xl-12">
+                        <div class="card">
+                            <div class="e-table px-5 pb-5">
+                                <div class="table-responsive tc table-lg">
+                                    <table class="table border-top table-bordered mb-0" style="text-align: center">
+                                        <thead>
+                                            <tr>
+                                                <th>Order For</th>
+                                                <th>Food</th>
+                                                <th>Product</th>
+                                                <th>Quantity</th>
+                                                <th>Status</th>
+                                                <th>Change</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in open %}
+                                                <tr>
+                                                    {% if i.order.delivery == False %}
+                                                        <td class="text-nowrap align-middle">{{ i.order.room.number }}</td>
+                                                    {% else %}
+                                                        <td class="text-nowrap align-middle">Delivery</td>
+                                                    {% endif %}
+                                                    {% if i.food %}
+                                                        <td class="text-nowrap align-middle">{{ i.food.name }}</td>
+                                                    {% elif i.food == None %}
+                                                        <td class="text-nowrap align-middle">{{ i.food }}</td>
+                                                    {% endif %}
+                                                    {% if i.product %}
+                                                        <td class="text-nowrap align-middle">{{ i.product.name }}</td>
+                                                    {% else %}
+                                                        <td class="text-nowrap align-middle">{{ i.product }}</td>
+                                                    {% endif %}
+                                                    <td class="text-nowrap align-middle">{{ i.quantity }}</td>
+                                                    {% if i.done == True %}
+                                                        <td class="text-nowrap align-middle">Done</td>
+                                                    {% else %}
+                                                        <td class="text-nowrap align-middle">In Proces</td>
+                                                    {% endif %}
+                                                    <td><a href="#change_open{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" ><i class="fe fe-edit-2"></i></a></td>
+                                                    <div class="modal fade" id="change_open{{ i.id }}">
+                                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                            <div class="modal-content modal-content-demo">
+                                                                <div class="modal-body">
+                                                                    {% if i.done == True %}
+                                                                        <h2 class="text-success">If Order Is Ready Press Done</h2>
+                                                                    {% else %}
+                                                                        <h2 class="text-success">If You Made Mistake It Isn't Problem We Can Change It Again</h2>
+                                                                    {% endif %}
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    {% if i.done == True %}
+                                                                        <a href="{% url 'change-item' i.id %}"><button class="btn btn-success">Done</button></a>
+                                                                    {% else %}
+                                                                        <a href="{% url 'change-item' i.id %}"><button class="btn btn-success">In Proces</button></a>
+                                                                    {% endif %}
+                                                                    <button class="btn btn-info" data-bs-dismiss="modal">Close</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" >
+                            <section class="text-center"  class="ftco-section bg-light">
+                                {% if open.paginator.num_pages > 1 %}
+                                    <nav aria-labelledby="Page navigations" >
+                                        <ul class="pagination pagination-lg round-pagination" style="justify-content:center">
+                                            {% if open.has_previous %}
+                                                <li class="page-open">
+                                                    <a class="page-link" href="?page={{ open.previous_page_number }}"><i class="bx bx-left-arrow-alt">previous</i></a>
+                                                </li>
+                                            {% endif %}
+                                            {% for num in open.paginator.page_range %}
+                                                {% if num == open.number %}
+                                                    <li class="page-open active">
+                                                        <a class="page-link" href="#" tabindex="-1">{{ num }}</a>
+                                                    </li>
+                                                {% elif num > open.number|add:'-3' and num < open.number|add:'3' %}
+                                                    <li class="page-open">
+                                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if open.has_next %}
+                                                <li class="page-open">
+                                                    <a class="page-link" href="?page={{ open.next_page_number }}" aria-label="Next">
+                                                        <i class="bx bx-right-arrow-alt">next</i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

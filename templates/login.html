@@ -1,0 +1,68 @@
+{% load static %}
+<!doctype html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="Sash – Bootstrap 5  Admin & Dashboard Template">
+    <meta name="author" content="Spruko Technologies Private Limited">
+    <meta name="keywords" content="admin,admin dashboard,admin panel,admin template,bootstrap,clean,dashboard,flat,jquery,modern,responsive,premium admin templates,responsive admin,ui,ui kit.">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/images/brand/favicon.ico' %}" />
+    <title>CRM ChoyXona Dashboard</title>
+    <link id="style" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/dark-style.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/transparent-style.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/skin-modes.css' %}" rel="stylesheet" />
+    <link href="{% static 'assets/css/icons.css' %}" rel="stylesheet" />
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="{% static 'assets/colors/color1.css' %}" />
+</head>
+
+<body class="app sidebar-mini ltr login-img">
+    <div class="page">
+        <div class="login">
+            <div class="col col-login mx-auto mt-7">
+                <div class="container-login100">
+                    <div class="wrap-login100 p-6">
+                        <span class="login100-form-title pb-5">Login</span>
+                        <div class="panel panel-primary">
+                            <div class="panel-body tabs-menu-body p-0 pt-5">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab5">
+                                        <form class="login100-form validate-form" action="{% url 'login' %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="wrap-input100 validate-input input-group">
+                                                <input class="input100 border-start-0 form-control ms-0" type="text" name="name" placeholder="Name" required>
+                                            </div>
+                                            <div class="wrap-input100 validate-input input-group" id="Password-toggle">
+                                                <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                    <i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
+                                                </a>
+                                                <input class="input100 border-start-0 form-control ms-0" name="password" type="password" placeholder="Password" required>
+                                            </div>
+                                            <div class="container-login100-form-btn">
+                                                <button class="login100-form-btn btn-primary">Login</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/popper.min.js' %}"></script>
+    <script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/js/show-password.min.js' %}"></script>
+    <script src="{% static 'assets/js/generate-otp.js' %}"></script>
+    <script src="{% static 'assets/plugins/p-scroll/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/js/themeColors.js' %}"></script>
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+</body>
+
+</html>

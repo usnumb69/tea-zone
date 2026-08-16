@@ -1,0 +1,146 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="main-content app-content">
+        <div class="side-app">
+            <div class="main-container container-fluid">
+                <div class="row row-cards">
+                    <div class="col-lg-12 col-xl-12">
+                        <div class="card">
+                            {% if user.role == 1 %}
+                                <div class="card-header">
+                                    <a class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#add_order"><button class="btn btn-sm btn-primary badge" type="button">Add Order</button></a>
+                                    <div class="modal fade" id="add_order">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content modal-content-demo">
+                                                <form action="{% url 'order' %}" method="post">
+                                                    {% csrf_token %}
+                                                        <div class="modal-body">
+                                                            <input class="form-control" id="datepickerNoOfMonths" name="date" placeholder="MM/DD/YYYY" type="text" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success" id="btn__order">Add Order</button>
+                                                </form>
+                                                            <button class="btn btn-danger" id="close__order" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% elif user.role == 5 %}
+                                <div class="card-header">
+                                    <a class="modal-effect d-grid mb-3" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#add_order"><button class="btn btn-sm btn-primary badge" type="button">Add Order</button></a>
+                                    <div class="modal fade" id="add_order">
+                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                            <div class="modal-content modal-content-demo">
+                                                <form action="{% url 'order' %}" method="post">
+                                                    {% csrf_token %}
+                                                        <div class="modal-body">
+                                                            <input class="form-control" id="datepickerNoOfMonths" name="date" placeholder="MM/DD/YYYY" type="text" required>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-success">Add Order</button>
+                                                </form>
+                                                            <button class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="e-table px-5 pb-5">
+                                <div class="table-responsive table-lg">
+                                    <table class="table border-top table-bordered mb-0" style="text-align: center">
+                                        <thead>
+                                            <tr>
+                                                <th>Waiter</th>
+                                                <th>Customer</th>
+                                                <th>Room</th>
+                                                <th>Date</th>
+                                                <th>Done</th>
+                                                <th>Bill</th>
+                                                <th>Delete</th>
+                                                <th>Serve</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in orders %}
+                                                <tr>
+                                                    <td class="text-nowrap align-middle">{{ i.user.first_name }}</td>
+                                                    <td class="text-nowrap align-middle">{{ i.owner.name }}</td>
+                                                    <td class="text-nowrap align-middle">{{ i.room.number  }}</td>
+                                                    <td class="text-nowrap align-middle">{{ i.date  }}</td>
+                                                    {% if i.done == False %}
+                                                        <td class="text-nowrap align-middle">Open</td>
+                                                    {% elif i.done == True %}
+                                                        <td class="text-nowrap align-middle">Close</td>
+                                                    {% endif %}
+                                                    {% if i.bill == None %}
+                                                        <td class="text-nowrap align-middle">0$</td>
+                                                    {% else %}
+                                                        <td class="text-nowrap align-middle">{{ i.bill }}$</td>
+                                                    {% endif %}
+
+                                                        <td><a href="#delete_order{{ i.id }}" class="modal-effect" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal"><i class="fe fe-trash"></i></a></td>
+                                                        <div class="modal fade" id="delete_order{{ i.id }}">
+                                                            <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                                <div class="modal-content modal-content-demo">
+                                                                    <div class="modal-body">
+                                                                        <h2 class="text-danger">Warning: If You Delete Order Item You Cant Restore It!</h2>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <a href="{% url 'delete-order' i.id %}"><button class="btn btn-danger"><i class="fe fe-trash"></i></button></a>
+                                                                        <button class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <td><a href="{%url 'add-user-order' i.id %}" class="btn btn-secondary">Serve</a></td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" >
+                        <section class="text-center"  class="ftco-section bg-light">
+                            {% if order.paginator.num_pages > 1 %}
+                                <nav aria-labelledby="Page navigations" >
+                                    <ul class="pagination pagination-lg round-pagination" style="justify-content:center">
+                                        {% if order.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ order.previous_page_number }}"><i class="bx bx-left-arrow-alt">previous</i></a>
+                                            </li>
+                                        {% endif %}
+                                        {% for num in order.paginator.page_range %}
+                                            {% if num == order.number %}
+                                                <li class="page-item active">
+                                                    <a class="page-link" href="#" tabindex="-1">{{ num }}</a>
+                                                </li>
+                                            {% elif num > order.number|add:'-3' and num < order.number|add:'3' %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if order.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link" href="?page={{ order.next_page_number }}" aria-label="Next">
+                                                    <i class="bx bx-right-arrow-alt">next</i>
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </nav>
+                            {% endif %}
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,123 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+    <div class="main-content app-content mt-0">
+        <div class="side-app">
+            <div class="main-container container-fluid">
+                <div class="page-header">
+                    <h1 class="page-title">Cooker List</h1>
+                    <div>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Staff</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Cookers List</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="row row-cards">
+                    <div class="col-lg-12 col-xl-12">
+                        <form method="post" action="{% url 'search' %}">
+                            {% csrf_token %}
+                            <div class="input-group mb-5">
+                                <input type="text" name="username" class="form-control" placeholder="Search">
+                                <button class="input-group-text btn btn-primary" type="submit">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <div class="card">
+                            <div class="card-header border-bottom-0">
+                                <h2 class="card-title">{{ total }} Cookers In Our Team</h2>
+                            </div>
+                            <div class="e-table px-5 pb-5">
+                                <div class="table-responsive table-lg">
+                                    <table class="table border-top table-bordered mb-0" style="text-align: center">
+                                        <thead>
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Name</th>
+                                                <th>Last Name</th>
+                                                <th>Phone Number</th>
+                                                <th>Date Joined</th>
+                                                <th>Update</th>
+                                                <th class="text-center">Fire Out</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in cooker %}
+                                                <tr>
+                                                    <td class="text-nowrap align-middle">{{ i.username }}</td>
+                                                    <td class="text-nowrap align-middle">{{ i.first_name  }}</td>
+                                                    <td class="text-nowrap align-middle">{{ i.last_name  }}</td>
+                                                    <td class="text-nowrap align-middle">+{{ i.number  }}</td>
+                                                    <td class="text-nowrap align-middle"><span>{{ i.date_joined  }}</span></td>
+                                                    <td><a href="#"><i class="fe fe-edit-2"></i></a></td>
+                                                    <td class="text-center align-middle">
+                                                        <div class="btn-group align-top">
+                                                            <a class="modal-effect d-grid" data-bs-effect="effect-flip-vertical" data-bs-toggle="modal" href="#delete_cooker{{ i.id }}"><button class="btn btn-sm btn-danger badge" type="button"><i class="fe fe-log-out"></i></button></a>
+                                                        </div>
+                                                    </td>
+                                                    <div class="modal fade" id="delete_cooker{{ i.id }}">
+                                                        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+                                                            <div class="modal-content modal-content-demo">
+                                                                <div class="modal-header">
+                                                                    <h6 class="modal-title">Are You Sure?</h6><button aria-label="Close" class="btn-close" data-bs-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                                                                </div>
+                                                                <form action="{% url 'delete-user' i.id %}" method="post">
+                                                                    {% csrf_token %}
+                                                                        <div class="modal-body">
+                                                                            <input type="password" class="form-control" name="password" placeholder="Your Password">
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button class="btn btn-danger">Fire Out</button>
+                                                                </form>
+                                                                            <button class="btn btn-success" data-bs-dismiss="modal">Close</button>
+                                                                        </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <section class="text-center"  class="ftco-section bg-light">
+                                {% if cooker.paginator.num_pages > 1 %}
+                                    <nav aria-labelledby="Page navigations" >
+                                        <ul class="pagination pagination-lg round-pagination" style="justify-content:center">
+                                            {% if cooker.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ cooker.previous_page_number }}"><i class="bx bx-left-arrow-alt">Previous</i></a>
+                                                </li>
+                                            {% endif %}
+                                            {% for num in cooker.paginator.page_range %}
+                                                {% if num == cooker.number %}
+                                                    <li class="page-item active">
+                                                        <a class="page-link" href="#" tabindex="-1">{{ num }}</a>
+                                                    </li>
+                                                {% elif num > cooker.number|add:'-3' and num < cooker.number|add:'3' %}
+                                                    <li class="page-item">
+                                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                            {% if cooker.has_next %}
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page={{ cooker.next_page_number }}" aria-label="Next">
+                                                        <i class="bx bx-right-arrow-alt">Next</i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </nav>
+                                {% endif %}
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

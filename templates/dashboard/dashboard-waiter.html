@@ -1,0 +1,299 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+<div class="main-content app-content mt-0">
+    <div class="side-app">
+        <div class="main-container container-fluid">
+            <div class="page-header">
+                <h1 class="page-title">CRM Waiter Dashboard</h1>
+                <div>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ revenue }}</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Close Orders</h6>
+                                            <a href="#" style="color: black"><h2 class="mb-2 number-font">{{ closed }}</h2></a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/waiter/closed.png' %}" height="110px" width="110px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Open Orders</h6>
+                                            <a href="#" style="color: black"><h2 class="mb-0 number-font">{{ open }}</h2></a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/waiter/open.png' %}" width="110px" height="110px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Free Orders</h6>
+                                            <a href="#" style="color: black"><h2 class="mb-0 number-font">{{ free }}</h2></a>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/waiter/free.png' %}" height="110px" width="110px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xl-3">
+                            <div class="card overflow-hidden">
+                                <div class="card-body">
+                                    <div class="d-flex">
+                                        <div class="mt-2">
+                                            <h6 class="card-title">Today Revenue</h6>
+                                            <h2 class="number-font">${{ revenue }}</h2>
+                                        </div>
+                                        <div class="ms-auto">
+                                            <div class="chart-wrapper mt-1">
+                                                <img src="{% static 'assets/images/director/revenue.png' %}" width="110px" height="110px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Sales Analytics</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex mx-auto text-center justify-content-center mb-4">
+                                <div class="d-flex text-center justify-content-center me-3"><span
+                                        class="dot-label bg-primary my-auto"></span>Total Sales</div>
+                                <div class="d-flex text-center justify-content-center"><span
+                                        class="dot-label bg-secondary my-auto"></span>Total Orders</div>
+                            </div>
+                            <div class="chartjs-wrapper-demo">
+                                <canvas id="transactions" class="chart-dropshadow"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- COL END -->
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-3">
+                    <div class="card overflow-hidden">
+                        <div class="card-body pb-0 bg-recentorder">
+                            <h3 class="card-title text-white">Recent Orders</h3>
+                            <div class="chartjs-wrapper-demo">
+                                <canvas id="recentorders" class="chart-dropshadow"></canvas>
+                            </div>
+                        </div>
+                        <div id="flotback-chart" class="flot-background"></div>
+                        <div class="card-body">
+                            <div class="d-flex mb-4 mt-3">
+                                <div
+                                    class="avatar avatar-md bg-secondary-transparent text-secondary bradius me-3">
+                                    <i class="fe fe-check"></i>
+                                </div>
+                                <div class="">
+                                    <h6 class="mb-1 fw-semibold">Delivered Orders</h6>
+                                    <p class="fw-normal fs-12"> <span class="text-success">3.5%</span>
+                                        increased </p>
+                                </div>
+                                <div class=" ms-auto my-auto">
+                                    <p class="fw-bold fs-20"> 1,768 </p>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="avatar  avatar-md bg-pink-transparent text-pink bradius me-3">
+                                    <i class="fe fe-x"></i>
+                                </div>
+                                <div class="">
+                                    <h6 class="mb-1 fw-semibold">Cancelled Orders</h6>
+                                    <p class="fw-normal fs-12"> <span class="text-success">1.2%</span>
+                                        increased </p>
+                                </div>
+                                <div class=" ms-auto my-auto">
+                                    <p class="fw-bold fs-20 mb-0"> 3,675 </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title mb-0">Product Sales</h3>
+                        </div>
+                        <div class="card-body pt-4">
+                            <div class="grid-margin">
+                                <div class="">
+                                    <div class="panel panel-primary">
+                                        <div class="tab-menu-heading border-0 p-0">
+                                            <div class="tabs-menu1">
+                                                <ul class="nav panel-tabs product-sale">
+                                                    <li>
+                                                        <a href="#tab5" class="active" data-bs-toggle="tab">All products</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab6" data-bs-toggle="tab" class="text-dark">Shipped</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab7" data-bs-toggle="tab" class="text-dark">Pending</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#tab8" data-bs-toggle="tab" class="text-dark">Cancelled</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body tabs-menu-body border-0 pt-0">
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab5">
+                                                    <div class="table-responsive">
+                                                        <table id="data-table"
+                                                            class="table table-bordered text-nowrap mb-0">
+                                                            <thead class="border-top">
+                                                                <tr>
+                                                                    <th class="bg-transparent border-bottom-0" style="width: 5%;">Tracking Id</th>
+                                                                    <th class="bg-transparent border-bottom-0">Product</th>
+                                                                    <th class="bg-transparent border-bottom-0">Customer</th>
+                                                                    <th class="bg-transparent border-bottom-0">Date</th>
+                                                                    <th class="bg-transparent border-bottom-0">Amount</th>
+                                                                    <th class="bg-transparent border-bottom-0">Payment Mode</th>
+                                                                    <th class="bg-transparent border-bottom-0" style="width: 10%;">Status</th>
+                                                                    <th class="bg-transparent border-bottom-0" style="width: 5%;">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="border-bottom">
+                                                                    <td class="text-center">
+                                                                        <div class="mt-0 mt-sm-2 d-block">
+                                                                            <h6 class="mb-0 fs-14 fw-semibold">#98765490</h6>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex">
+                                                                            <span class="avatar bradius" style="background-image: url({% static 'assets/images/orders/10.jpg' %})"></span>
+                                                                            <div class="ms-3 mt-0 mt-sm-2 d-block">
+                                                                                <h6 class="mb-0 fs-14 fw-semibold">Headsets</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="d-flex">
+                                                                            <div class="mt-0 mt-sm-3 d-block">
+                                                                                <h6 class="mb-0 fs-14 fw-semibold">Cherry Blossom</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><span class="mt-sm-2 d-block">30 Aug 2021</span></td>
+                                                                    <td><span class="fw-semibold mt-sm-2 d-block">$6.721.5</span></td>
+                                                                    <td>
+                                                                        <div class="d-flex">
+                                                                            <div class="mt-0 mt-sm-3 d-block">
+                                                                                <h6 class="mb-0 fs-14 fw-semibold">Online Payment</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="mt-sm-1 d-block">
+                                                                            <span class="badge bg-success-transparent rounded-pill text-success p-2 px-3">Shipped</span>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="g-2">
+                                                                            <a class="btn text-primary btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Edit">
+                                                                                <span class="fe fe-edit fs-14"></span>
+                                                                            </a>
+                                                                            <a class="btn text-danger btn-sm" data-bs-toggle="tooltip" data-bs-original-title="Delete">
+                                                                                <span class="fe fe-trash-2 fs-14"></span>
+                                                                            </a>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="sidebar sidebar-right sidebar-animate">
+    <div class="panel panel-primary card mb-0 shadow-none border-0">
+        <div class="tab-menu-heading border-0 d-flex p-3">
+            <div class="card-title mb-0">
+                <i class="fe fe-bell me-2"></i>
+                <span class="pulse"></span>Notifications
+            </div>
+            <div class="card-options ms-auto">
+                <a href="javascript:void(0);" class="sidebar-icon text-end float-end me-3 mb-1" data-bs-toggle="sidebar-right" data-target=".sidebar-right">
+                    <i class="fe fe-x text-white"></i>
+                </a>
+            </div>
+        </div>
+        <div class="panel-body tabs-menu-body latest-tasks p-0 border-0">
+            <div class="tabs-menu border-bottom">
+                <ul class="nav panel-tabs">
+                    <li><a href="#side2" data-bs-toggle="tab"><i class="fe fe-message-circle"></i> Chat</a></li>
+                </ul>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane" id="side2">
+                    <div class="list-group list-group-flush">
+                        <div class="list-group-item d-flex align-items-center">
+                            <div class="me-2">
+                                <span class="avatar avatar-md brround cover-image" data-bs-image-src="{% static 'assets/images/users/2.jpg' %}"></span>
+                            </div>
+                            <div class="">
+                                <a href="#">
+                                    <div class="fw-semibold text-dark" data-bs-toggle="modal" data-target="#chatmodel">Addie Minstra</div>
+                                    <p class="mb-0 fs-12 text-muted"> Hey! there I' am available.... </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
